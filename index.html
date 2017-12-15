@@ -68,16 +68,11 @@ body {
 
 <p><b>Technical requirements:</b></p>
 <ul>
-       <li>This experiment will only work in Firefox version 20 or higher, Chrome version 25 or higher, Safari version 5 or higher, or Internet Explorer version 10 or higher. <div id="browser_error" style="color:#cc0000;">Your browser is incompatible with this HIT. Please use a different browser.</div></li>
+       <li>This experiment will only work in Firefox version 20 or higher, Chrome version 25 or higher, Safari version 5 or higher, or Internet Explorer version 10 or higher.</li>
        <li>Please allow permission for Javascript to run on this site and disable any script blockers that are running.</li>
 </ul>
-<script>
-	if(FFOK(20) || ChromeOK(25) || SafariOK(5) || IEOK(10)) {
-hideError("browser_error");
-}
-</script>
 
-<input type="button" value="Continue" onclick="if((typeof browserOK !== 'undefined') && (FFOK(20) || ChromeOK(25) || SafariOK(5) || IEOK(10))) { next(); }else{ alert('Your browser is incompatible with this HIT. Please use a different browser.'); }" />
+<input type="button" value="Continue" onclick="next();" />
 </div>
 </div>
 
