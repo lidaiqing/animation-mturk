@@ -1,0 +1,205 @@
+<HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2006-07-14/ExternalQuestion.xsd">
+<HTMLContent>
+<!DOCTYPE html>
+<html>
+<head>
+<title>3D Animation Descriptions Test</title>
+<meta http-equiv='Content-Type' content='text/html, charset=UTF-8, width=device-width,initial-scale=1' name="viewport" />
+
+<script src="http://mturk.mit.edu/BrowserDetect.js"></script>
+<script src="http://mturk.mit.edu/Navigation.js"></script>
+<script src="http://mturk.mit.edu/Demographics.js"></script>
+
+<style type="text/css">
+.wrapper {
+	height: 80%;
+	width: 100%;
+	display: table;
+}
+
+.page {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.cell {
+	margin: 0 auto;
+	padding: 10px;
+	width: 850px;
+}
+
+#pagenum {
+	text-align: center;
+	font-style: italic;
+}
+.disclaimer {
+	font-weight: bold;
+	color: #555555;
+}
+
+.warning {
+	font-weight: bold;
+}
+
+body {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+</style>
+
+<div class="wrapper">
+
+<div class="page" id="1">
+<div class="cell">
+
+<div align="center"><h1>3D Animation Description Test</h1></div>
+
+<div class="disclaimer">Disclaimer: </div>
+<br />
+
+<div class="warning">Please only complete this HIT once. You will not be paid for retakes. If you have already completed this HIT or any other version of this HIT and submit it again, all submissions but the first will be rejected, and you will only be paid for the first submission. Having a submission rejected is detrimental to your reputation as a worker, and may prevent you from completing HITs in the future.</div>
+<br />
+
+<p>In this study, you will be shown a list of 3D animations. For each animation, please watch it fully and give it a short description in English words. Please make it a full English sentence without grammar mistakes.</p>
+
+<p><b>Technical requirements:</b></p>
+<ul>
+       <li>This experiment will only work in Firefox version 20 or higher, Chrome version 25 or higher, Safari version 5 or higher, or Internet Explorer version 10 or higher. <div id="browser_error" style="color:#cc0000;">Your browser is incompatible with this HIT. Please use a different browser.</div></li>
+       <li>Please allow permission for Javascript to run on this site and disable any script blockers that are running.</li>
+</ul>
+<script>
+	if(FFOK(20) || ChromeOK(25) || SafariOK(5) || IEOK(10)) {
+hideError("browser_error");
+}
+</script>
+
+<input type="button" value="Continue" onclick="if((typeof browserOK !== 'undefined') && (FFOK(20) || ChromeOK(25) || SafariOK(5) || IEOK(10))) { next(); }else{ alert('Your browser is incompatible with this HIT. Please use a different browser.'); }" />
+</div>
+</div>
+
+<div class="page" id="2" style="display: none;">
+<div class="cell">
+<h2>Demographic Information</h2>
+<p>Please help us out by answering the following questions about yourself. You must answer all of the questions marked with an asterisk (*).</p>
+<p><b>*What is your gender?</b></p>
+<select name="gender" id="gender">
+<option selected="selected" value="default">Please select</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+<option value="Other">Other</option>
+</select>
+<p><b>*How old are you?</b></p>
+<select name="age" id="age">
+<option selected="selected" value="default">Please select</option>
+<script>
+for (var i = 10; i < 100; i++) {
+	document.writeln("<option value='" + i + "'>" + i + "</option>");
+}
+</script>
+</select>
+<script>
+function fillInLanguages() {
+	document.writeln(languageInputHTML);
+}
+</script>
+<p><b>*Which of these languages is your first language?</b></p>
+<select name="language1" id="lang1">
+<script>fillInLanguages();</script>
+</select>
+<p><b>Which of these languages is your second language?</b></p>
+<select name="language2" id="lang2">
+<script>fillInLanguages();</script>
+</select>
+<p><b>Which of these languages is your third language?</b></p>
+<select name="language3" id="lang3">
+<script>fillInLanguages();</script>
+</select>
+<p><b>*What country are you from?</b></p>
+<select name="country" id="country">
+<script>document.writeln(countryInputHTML);</script>
+</select>
+<br />
+<br />
+<input type="button" value="Go back" onclick="back();" />
+<input type="button" value="Continue" onclick="function filledOut(id) { return document.getElementById(id).value != 'default' } if(filledOut('gender') && filledOut('age') && filledOut('lang1') && filledOut('country')) { next(); }else{ alert('Please answer all of the questions marked with an asterisk (*).'); }"  />
+
+</div>
+</div>
+
+<div class="page" id="3" style="display: none;">
+<div class="cell">
+
+<div align="center"><h1>Instructions</h1></div>
+
+<p>In this study, you will be shown a 3D animation. For each animation, please watch it fully and give it a short description in English words. Please make it a full English sentence without grammar mistakes.</p>
+
+<input type="button" value="Go back" onclick="back();" />
+<input type="button" value="Continue" onclick="next();" />
+
+</div>
+</div>
+
+<div class="page" id="4" style="display: none;">
+<div class="cell">
+
+<p>Please make a description about this animation in full English sentence.</p>
+<img src="https://d99n9xvb9513w.cloudfront.net/thumbnails/motions/108640901/animated.gif"></img>
+<br /><br />
+Description(15-50 words):
+<br /><br />
+<textarea name="descriptions" id="1-05" rows="4" cols="50" required></textarea>
+<br /><br />
+<input type="button" value="Go back" onclick="back();" />
+<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 15} if(textCheck('1-05')) { next(); }else{ alert('Please type in at lease 15 words!'); }" />
+
+</div>
+</div>
+
+<div class="page" id="5" style="display: none;">
+<div class="cell">
+
+<p>Please make a description about this animation in full English sentence.</p>
+<img src="https://d99n9xvb9513w.cloudfront.net/thumbnails/motions/110340901/animated.gif"></img>
+<br /><br />
+Description(15-50 words):
+<br /><br />
+<textarea name="descriptions" id="1-08" rows="4" cols="50" required></textarea>
+<br /><br />
+<input type="button" value="Go back" onclick="back();" />
+<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 15} if(textCheck('1-08')) { next(); }else{ alert('Please type in at lease 15 words!'); }" />
+
+</div>
+</div>
+
+<div class="page" id="6" style="display: none;">
+<div class="cell">
+
+<p>Thank you very much for participating in this study.</p>
+<p>Please enter any comments you have about this HIT in the box below:</p>
+<textarea name="comments" id="comments" rows="4" cols="50"></textarea>
+<br /><br />
+
+<input type="button" value="Go back" onclick="back();" />
+<input type="button" value="Continue" onclick="next();" />
+
+</div>
+</div>
+
+<div class="page" id="7" style="display: none;">
+<div class="cell">
+
+<p>Thank you for your help!</p>
+<br />
+<input type="button" value="Go back" onclick="back();" />
+<input type="submit" value="Submit" />
+
+</div>
+</div>
+
+</div>
+
+<center><script>makePageNumber("Page 1 / 7");</script></center>
