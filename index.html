@@ -67,14 +67,66 @@ function gup(name)
 
 $(document).ready(function()
 {
+	document.getElementById('assignmentId').value = gup('assignmentId');
+  console.log(gup('assignmentId'));
+  if (gup('assignmentId') == "ASSIGNMENT_ID_NOT_AVAILABLE") {
+      // If we're previewing, disable the button and give it a helpful message
+      document.getElementById('submitButton').disabled = true;
+      document.getElementById('submitButton').value = "You must ACCEPT the HIT before you can submit the results.";
+  } else {
+      var form = document.getElementById('mturk_form');
+      //form.action = "https://www.mturk.com/mturk/externalSubmit";
+            //if (document.referrer && ( document.referrer.indexOf('workersandbox') != -1) ) {
+    	form.action = "https://workersandbox.mturk.com/mturk/externalSubmit";
+             //   form.action = "https://www.mturk.com/mturk/externalSubmit";
+           // }
+  }
+  set_gif_tag();
 	set_gif_src();
 
+	function set_gif_tag() {
+		var json_url = "https://lidaiqing.github.io/animation-mturk/json/items_info.json"
+		$.getJSON(json_url, function(tags) {
+			var id1 = gup('id1');
+			var id2 = gup('id2');
+			if (id1 == "") id1 = '1-1';
+			if (id2 == "") id2 = '1-2';
+			for (var i in tags) {
+
+				if (tags[i].id == id1) {
+					$('#tag1').text("Action tag: " + tags[i].action);
+					console.log(tags[i]);
+				}
+				if (tags[i].id == id2) {
+					$('#tag2').text("Action tag: " + tags[i].action);
+					console.log(tags[i]);
+				}
+			}
+		});
+	}
 	function set_gif_src() {
 		var id1 = gup('id1');
 		var id2 = gup('id2');
-		var baseURL = "";
-		$("#gif1").attr("src","https://d99n9xvb9513w.cloudfront.net/thumbnails/motions/108640901/animated.gif");
-		$("#gif2").attr("src","https://d99n9xvb9513w.cloudfront.net/thumbnails/motions/110340901/animated.gif");
+		if (id1 == "") id1 = '1-1';
+		if (id2 == "") id2 = '1-2';
+		var baseURL = "https://s3.amazonaws.com/animation-mturk/image/";
+		$("#gif1").attr("src",baseURL + id1 + ".gif");
+		$("#gif2").attr("src",baseURL + id2 + ".gif");
+	}
+
+	function submitResults() {
+		document.getElementById('form_gender').value = document.getElementById('gender').value;
+		document.getElementById('form_age').value = document.getElementById('age').value;
+		document.getElementById('form_lang1').value = document.getElementById('lang1').value;
+		document.getElementById('form_lang2').value = document.getElementById('lang2').value;
+		document.getElementById('form_lang3').value = document.getElementById('lang3').value;
+		document.getElementById('form_country').value = document.getElementById('contry').value;
+		document.getElementById('form_description1').value = document.getElementById('description1').value;
+		document.getElementById('form_description1').name = gup('id1') + "description";
+		document.getElementById('form_description2').value = document.getElementById('description2').value;
+		document.getElementById('form_description2').name = gup('id2') + "description";
+		document.getElementById('form_comments').value = document.getElementById('comments').value;
+		document.forms["mturk_form"].submit();
 	}
 });
 </script>
@@ -170,14 +222,15 @@ function fillInLanguages() {
 <div class="cell">
 
 <p>Please make a description about this animation in full English sentence.</p>
+<p id="tag1"> </p>
 <img id="gif1" src=""></img>
 <br /><br />
 Description(15-50 words):
 <br /><br />
-<textarea name="descriptions" id="1-05" rows="4" cols="50" required></textarea>
+<textarea name="descriptions" id="description1" rows="4" cols="50"></textarea>
 <br /><br />
 <input type="button" value="Go back" onclick="back();" />
-<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 15} if(textCheck('1-05')) { next(); }else{ alert('Please type in at lease 15 words!'); }" />
+<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 15} if(textCheck('description1')) { next(); }else{ alert('Please type in at lease 15 words!'); }" />
 
 </div>
 </div>
@@ -186,14 +239,15 @@ Description(15-50 words):
 <div class="cell">
 
 <p>Please make a description about this animation in full English sentence.</p>
+<p id="tag2"> </p>
 <img id="gif2" src=""></img>
 <br /><br />
 Description(15-50 words):
 <br /><br />
-<textarea name="descriptions" id="1-08" rows="4" cols="50" required></textarea>
+<textarea name="descriptions" id="description2" rows="4" cols="50"></textarea>
 <br /><br />
 <input type="button" value="Go back" onclick="back();" />
-<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 15} if(textCheck('1-08')) { next(); }else{ alert('Please type in at lease 15 words!'); }" />
+<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 15} if(textCheck('description2')) { next(); }else{ alert('Please type in at lease 15 words!'); }" />
 
 </div>
 </div>
@@ -218,8 +272,19 @@ Description(15-50 words):
 <p>Thank you for your help!</p>
 <br />
 <input type="button" value="Go back" onclick="back();" />
-<input type="submit" value="Submit" />
-
+<form id="mturk_form" method="POST" action="">
+	<input type="hidden" id="assignmentId" name="assignmentId" value="">
+	<input type="hidden" id="form_gender" name="gender" value="">
+	<input type="hidden" id="form_age" name="age" value="">
+	<input type="hidden" id="form_lang1" name="language1" value="">
+	<input type="hidden" id="form_lang2" name="language2" value="">
+	<input type="hidden" id="form_lang3" name="language3" value="">
+	<input type="hidden" id="form_contry" name="contry" value="">
+	<input type="hidden" id="form_description1" name="" value="">
+	<input type="hidden" id="form_description2" name="" value="">
+	<input type="hidden" id="form_comments" name="comments" value="">
+  <input id="submitButton" type="button"" value="Submit" onclick="submitResults();">
+</form>
 </div>
 </div>
 
