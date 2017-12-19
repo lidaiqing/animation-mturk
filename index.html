@@ -1,10 +1,9 @@
-<HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2006-07-14/ExternalQuestion.xsd">
-<HTMLContent>
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
 <title>3D Animation Descriptions Test</title>
-<meta http-equiv='Content-Type' content='text/html, charset=UTF-8, width=device-width,initial-scale=1' name="viewport" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <script src="https://rawgit.com/lidaiqing/animation-mturk/master/js/BrowserDetect.js"></script>
 <script src="https://rawgit.com/lidaiqing/animation-mturk/master/js/Navigation.js"></script>
@@ -52,6 +51,19 @@ body {
 }
 </style>
 <script>
+function getImageId(groupId) {
+	var id1 = (parseInt(groupId)-1) * 3;
+	var id2 = id1 + 1;
+	var id3 = id2 + 1;
+	var animation_number = 48;
+	var page_number = 52;
+	var id_list = [];
+	id_list[0] = (Math.round(id1/animation_number)+1).toString() + '-' + ((id1 % animation_number) + 1).toString();
+	id_list[1] = (Math.round(id2/animation_number)+1).toString() + '-' + ((id2 % animation_number) + 1).toString();
+	id_list[2] = (Math.round(id3/animation_number)+1).toString() + '-' + ((id3 % animation_number) + 1).toString();
+	console.log('groupId:' + groupId + ' id1:' + id_list[0] + 'id2:' + id_list[1] + 'id3:' + id_list[2]);
+	return id_list;
+}
 
 function gup(name)
 {
@@ -66,16 +78,24 @@ function gup(name)
 }
 
 function submitResults() {
-	document.getElementById('form_gender').value = document.getElementById('gender').value;
-	document.getElementById('form_age').value = document.getElementById('age').value;
-	document.getElementById('form_lang1').value = document.getElementById('lang1').value;
-	document.getElementById('form_lang2').value = document.getElementById('lang2').value;
-	document.getElementById('form_lang3').value = document.getElementById('lang3').value;
-	document.getElementById('form_country').value = document.getElementById('country').value;
+	var groupId = gup('groupId');
+	if (groupId == "") groupId = "1";
+	var id_list = getImageId(groupId);
 	document.getElementById('form_description1').value = document.getElementById('description1').value;
-	document.getElementById('form_description1').name = gup('id1') + "description";
+	document.getElementById('form_description1').name = id_list[0] + "description";
+	document.getElementById('form_practical1').value = document.getElementById('practical1').value;
+	document.getElementById('form_practical1').name = id_list[0] + "practical1";
+
 	document.getElementById('form_description2').value = document.getElementById('description2').value;
-	document.getElementById('form_description2').name = gup('id2') + "description";
+	document.getElementById('form_description2').name = id_list[1] + "description";
+	document.getElementById('form_practical2').value = document.getElementById('practical2').value;
+	document.getElementById('form_practical2').name = id_list[1] + "practical2";
+
+	document.getElementById('form_description3').value = document.getElementById('description3').value;
+	document.getElementById('form_description3').name = id_list[2] + "description";
+	document.getElementById('form_practical3').value = document.getElementById('practical3').value;
+	document.getElementById('form_practical3').name = id_list[2] + "practical3";
+
 	document.getElementById('form_comments').value = document.getElementById('comments').value;
 	document.forms["mturk_form"].submit();
 }
@@ -102,12 +122,16 @@ $(document).ready(function()
 	function set_gif_tag() {
 		var json_url = "https://lidaiqing.github.io/animation-mturk/json/items_info.json"
 		$.getJSON(json_url, function(tags) {
-			var id1 = gup('id1');
-			var id2 = gup('id2');
+			var groupId = gup('groupId');
+			if (groupId == "") groupId = "1";
+			var id_list = getImageId(groupId);
+			var id1 = id_list[0];
+			var id2 = id_list[1];
+			var id3 = id_list[2];
 			if (id1 == "") id1 = '1-1';
 			if (id2 == "") id2 = '1-2';
+			if (id3 == "") id3 = '1-3';
 			for (var i in tags) {
-
 				if (tags[i].id == id1) {
 					$('#tag1').text("Action tag: " + tags[i].action);
 					console.log(tags[i]);
@@ -116,17 +140,27 @@ $(document).ready(function()
 					$('#tag2').text("Action tag: " + tags[i].action);
 					console.log(tags[i]);
 				}
+				if (tags[i].id == id3) {
+					$('#tag3').text("Action tag: " + tags[i].action);
+					console.log(tags[i]);
+				}
 			}
 		});
 	}
 	function set_gif_src() {
-		var id1 = gup('id1');
-		var id2 = gup('id2');
+		var groupId = gup('groupId');
+		if (groupId == "") groupId = "1";
+		var id_list = getImageId(groupId);
+		var id1 = id_list[0];
+		var id2 = id_list[1];
+		var id3 = id_list[2];
 		if (id1 == "") id1 = '1-1';
 		if (id2 == "") id2 = '1-2';
+		if (id3 == "") id3 = '1-3';
 		var baseURL = "https://s3.amazonaws.com/animation-mturk/image/";
 		$("#gif1").attr("src",baseURL + id1 + ".gif");
 		$("#gif2").attr("src",baseURL + id2 + ".gif");
+		$("#gif3").attr("src",baseURL + id3 + ".gif");
 	}
 });
 </script>
@@ -137,9 +171,6 @@ $(document).ready(function()
 <div class="cell">
 
 <div align="center"><h1>3D Animation Description Test</h1></div>
-
-<div class="disclaimer">Disclaimer: </div>
-<br />
 
 <div class="warning">Please only complete this HIT once. You will not be paid for retakes. If you have already completed this HIT or any other version of this HIT and submit it again, all submissions but the first will be rejected, and you will only be paid for the first submission. Having a submission rejected is detrimental to your reputation as a worker, and may prevent you from completing HITs in the future.</div>
 <br />
@@ -158,67 +189,35 @@ $(document).ready(function()
 
 <div class="page" id="2" style="display: none;">
 <div class="cell">
-<h2>Demographic Information</h2>
-<p>Please help us out by answering the following questions about yourself. You must answer all of the questions marked with an asterisk (*).</p>
-<p><b>*What is your gender?</b></p>
-<select name="gender" id="gender">
-<option selected="selected" value="default">Please select</option>
-<option value="Male">Male</option>
-<option value="Female">Female</option>
-<option value="Other">Other</option>
-</select>
-<p><b>*How old are you?</b></p>
-<select name="age" id="age">
-<option selected="selected" value="default">Please select</option>
-<script>
-for (var i = 10; i < 100; i++) {
-	document.writeln("<option value='" + i + "'>" + i + "</option>");
-}
-</script>
-</select>
-<script>
-function fillInLanguages() {
-	document.writeln(languageInputHTML);
-}
-</script>
-<p><b>*Which of these languages is your first language?</b></p>
-<select name="language1" id="lang1">
-<script>fillInLanguages();</script>
-</select>
-<p><b>Which of these languages is your second language?</b></p>
-<select name="language2" id="lang2">
-<script>fillInLanguages();</script>
-</select>
-<p><b>Which of these languages is your third language?</b></p>
-<select name="language3" id="lang3">
-<script>fillInLanguages();</script>
-</select>
-<p><b>*What country are you from?</b></p>
-<select name="country" id="country">
-<script>document.writeln(countryInputHTML);</script>
-</select>
-<br />
-<br />
-<input type="button" value="Go back" onclick="back();" />
-<input type="button" value="Continue" onclick="function filledOut(id) { return document.getElementById(id).value != 'default' } if(filledOut('gender') && filledOut('age') && filledOut('lang1') && filledOut('country')) { next(); }else{ alert('Please answer all of the questions marked with an asterisk (*).'); }"  />
-
-</div>
-</div>
-
-<div class="page" id="3" style="display: none;">
-<div class="cell">
 
 <div align="center"><h1>Instructions</h1></div>
 
-<p>In this study, you will be shown a 3D animation. For each animation, please watch it fully and give it a short description in English words. Please make it a full English sentence without grammar mistakes.</p>
+<p style="color:red;">1. Write a natural sentence describing the action in the video. Someone reading just the sentence should have a vivid impression of what the actor is doing.</p>
+<p style="color:red;">2. Please write a description for 3 videos. Videos are unrelated, so treat each one individually. </p>
+<p style="color:red;">3. Please also choose if this action can happen in real life (a normal people can do it). </p>
+<p style="color:red;">4. We will be checking the descriptions. Your HIT will be rejected if the sentences are not descriptive or not grammatically correct. </p>
 
+<p>Here is an example of the description.</p>
+<p>Action tag: Grenade Throw </p>
+<img src="https://s3.amazonaws.com/animation-mturk/image/1-40.gif"></img>
+<br /><br />
+<p>Description(5-20 words):</p>
+<textarea rows="4" cols="50" disabled>
+A man is throwing a grenade while kneeling pulling pin with teeth.
+</textarea>
+<p> Can this action happen in real life?
+<select>
+	<option value="yes">Yes</option>
+	<option value="no">No</option>
+</select>
+</p>
 <input type="button" value="Go back" onclick="back();" />
 <input type="button" value="Continue" onclick="next();" />
 
 </div>
 </div>
 
-<div class="page" id="4" style="display: none;">
+<div class="page" id="3" style="display: none;">
 <div class="cell">
 
 <p>Please make a description about this animation in full English sentence.</p>
@@ -229,13 +228,19 @@ Description(5-20 words):
 <br /><br />
 <textarea name="descriptions" id="description1" rows="4" cols="50"></textarea>
 <br /><br />
+<p> Can this action happen in real life?
+<select id="practical1">
+	<option value="yes">Yes</option>
+	<option value="no">No</option>
+</select>
+</p>
 <input type="button" value="Go back" onclick="back();" />
 <input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description1')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
 
 </div>
 </div>
 
-<div class="page" id="5" style="display: none;">
+<div class="page" id="4" style="display: none;">
 <div class="cell">
 
 <p>Please make a description about this animation in full English sentence.</p>
@@ -246,6 +251,35 @@ Description(5-20 words):
 <br /><br />
 <textarea name="descriptions" id="description2" rows="4" cols="50"></textarea>
 <br /><br />
+<p> Can this action happen in real life?
+<select id="practical2">
+	<option value="yes">Yes</option>
+	<option value="no">No</option>
+</select>
+</p>
+<input type="button" value="Go back" onclick="back();" />
+<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description2')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
+
+</div>
+</div>
+
+<div class="page" id="5" style="display: none;">
+<div class="cell">
+
+<p>Please make a description about this animation in full English sentence.</p>
+<p id="tag3"> </p>
+<img id="gif3" src=""></img>
+<br /><br />
+Description(5-20 words):
+<br /><br />
+<textarea name="descriptions" id="description3" rows="4" cols="50"></textarea>
+<br /><br />
+<p> Can this action happen in real life?
+<select id="practical3">
+	<option value="yes">Yes</option>
+	<option value="no">No</option>
+</select>
+</p>
 <input type="button" value="Go back" onclick="back();" />
 <input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description2')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
 
@@ -274,14 +308,12 @@ Description(5-20 words):
 <input type="button" value="Go back" onclick="back();" />
 <form id="mturk_form" method="POST" action="">
 	<input type="hidden" id="assignmentId" name="assignmentId" value="">
-	<input type="hidden" id="form_gender" name="gender" value="">
-	<input type="hidden" id="form_age" name="age" value="">
-	<input type="hidden" id="form_lang1" name="language1" value="">
-	<input type="hidden" id="form_lang2" name="language2" value="">
-	<input type="hidden" id="form_lang3" name="language3" value="">
-	<input type="hidden" id="form_country" name="country" value="">
 	<input type="hidden" id="form_description1" name="" value="">
+	<input type="hidden" id="form_practical1" name="" value="">
 	<input type="hidden" id="form_description2" name="" value="">
+	<input type="hidden" id="form_practical2" name="" value="">
+	<input type="hidden" id="form_description3" name="" value="">
+	<input type="hidden" id="form_practical3" name="" value="">
 	<input type="hidden" id="form_comments" name="comments" value="">
   <input id="submitButton" type="button" value="Submit" onclick="submitResults();">
 </form>
