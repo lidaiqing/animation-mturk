@@ -83,18 +83,18 @@ function submitResults() {
 	var id_list = getImageId(groupId);
 	document.getElementById('form_description1').value = document.getElementById('description1').value;
 	document.getElementById('form_description1').name = id_list[0] + "description";
-	document.getElementById('form_practical1').value = document.getElementById('practical1').value;
-	document.getElementById('form_practical1').name = id_list[0] + "practical1";
+	//document.getElementById('form_practical1').value = document.getElementById('practical1').value;
+	//document.getElementById('form_practical1').name = id_list[0] + "practical1";
 
 	document.getElementById('form_description2').value = document.getElementById('description2').value;
 	document.getElementById('form_description2').name = id_list[1] + "description";
-	document.getElementById('form_practical2').value = document.getElementById('practical2').value;
-	document.getElementById('form_practical2').name = id_list[1] + "practical2";
+	//document.getElementById('form_practical2').value = document.getElementById('practical2').value;
+	//document.getElementById('form_practical2').name = id_list[1] + "practical2";
 
 	document.getElementById('form_description3').value = document.getElementById('description3').value;
 	document.getElementById('form_description3').name = id_list[2] + "description";
-	document.getElementById('form_practical3').value = document.getElementById('practical3').value;
-	document.getElementById('form_practical3').name = id_list[2] + "practical3";
+	//document.getElementById('form_practical3').value = document.getElementById('practical3').value;
+	//document.getElementById('form_practical3').name = id_list[2] + "practical3";
 
 	document.getElementById('form_comments').value = document.getElementById('comments').value;
 	document.forms["mturk_form"].submit();
@@ -192,10 +192,9 @@ $(document).ready(function()
 
 <div align="center"><h1>Instructions</h1></div>
 
-<p style="color:red;">1. Write a natural sentence describing the action in the video. Someone reading just the sentence should have a vivid impression of what the actor is doing.</p>
-<p style="color:red;">2. Please write a description for 3 videos. Videos are unrelated, so treat each one individually. </p>
-<p style="color:red;">3. Please also choose if this action can happen in real life (a normal people can do it). </p>
-<p style="color:red;">4. We will be checking the descriptions. Your HIT will be rejected if the sentences are not descriptive or not grammatically correct. </p>
+<h3 style="color:red;">1. Write a natural sentence describing the action in the video. Someone reading just the sentence should have a vivid impression of what the actor is doing.</h3>
+<h3 style="color:red;">2. Please write a description for 3 videos. Videos are unrelated, so treat each one individually. </h3>
+<h3 style="color:red;">3. We will be checking the descriptions. Your HIT will be rejected if the sentences are not descriptive or not grammatically correct. </h3>
 
 <p>Here is an example of the description.</p>
 <p>Action tag: Grenade Throw </p>
@@ -205,11 +204,6 @@ $(document).ready(function()
 <textarea rows="4" cols="50" disabled>
 A man is throwing a grenade while kneeling pulling pin with teeth.
 </textarea>
-<p> Can this action happen in real life?
-<select>
-	<option value="yes">Yes</option>
-	<option value="no">No</option>
-</select>
 </p>
 <input type="button" value="Go back" onclick="back();" />
 <input type="button" value="Continue" onclick="next();" />
@@ -220,20 +214,14 @@ A man is throwing a grenade while kneeling pulling pin with teeth.
 <div class="page" id="3" style="display: none;">
 <div class="cell">
 
-<p>Please make a description about this animation in full English sentence.</p>
+<h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag1"> </p>
 <img id="gif1" src=""></img>
 <br /><br />
 Description(5-20 words):
 <br /><br />
-<textarea name="descriptions" id="description1" rows="4" cols="50"></textarea>
+<textarea name="descriptions" id="description1" rows="4" cols="70"></textarea>
 <br /><br />
-<p> Can this action happen in real life?
-<select id="practical1">
-	<option value="yes">Yes</option>
-	<option value="no">No</option>
-</select>
-</p>
 <input type="button" value="Go back" onclick="back();" />
 <input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description1')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
 
@@ -243,20 +231,15 @@ Description(5-20 words):
 <div class="page" id="4" style="display: none;">
 <div class="cell">
 
-<p>Please make a description about this animation in full English sentence.</p>
+<h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag2"> </p>
 <img id="gif2" src=""></img>
 <br /><br />
 Description(5-20 words):
 <br /><br />
-<textarea name="descriptions" id="description2" rows="4" cols="50"></textarea>
+<textarea name="descriptions" id="description2" rows="4" cols="70"></textarea>
 <br /><br />
-<p> Is this action natural and realistic?
-<select id="practical2">
-	<option value="yes">Yes</option>
-	<option value="no">No</option>
-</select>
-</p>
+
 <input type="button" value="Go back" onclick="back();" />
 <input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description2')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
 
@@ -266,20 +249,15 @@ Description(5-20 words):
 <div class="page" id="5" style="display: none;">
 <div class="cell">
 
-<p>Please make a description about this animation in full English sentence.</p>
+<h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag3"> </p>
 <img id="gif3" src=""></img>
 <br /><br />
 Description(5-20 words):
 <br /><br />
-<textarea name="descriptions" id="description3" rows="4" cols="50"></textarea>
+<textarea name="descriptions" id="description3" rows="4" cols="70"></textarea>
 <br /><br />
-<p> Can this action happen in real life?
-<select id="practical3">
-	<option value="yes">Yes</option>
-	<option value="no">No</option>
-</select>
-</p>
+
 <input type="button" value="Go back" onclick="back();" />
 <input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description2')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
 
@@ -309,11 +287,8 @@ Description(5-20 words):
 <form id="mturk_form" method="POST" action="">
 	<input type="hidden" id="assignmentId" name="assignmentId" value="">
 	<input type="hidden" id="form_description1" name="" value="">
-	<input type="hidden" id="form_practical1" name="" value="">
 	<input type="hidden" id="form_description2" name="" value="">
-	<input type="hidden" id="form_practical2" name="" value="">
 	<input type="hidden" id="form_description3" name="" value="">
-	<input type="hidden" id="form_practical3" name="" value="">
 	<input type="hidden" id="form_comments" name="comments" value="">
   <input id="submitButton" type="button" value="Submit" onclick="submitResults();">
 </form>
