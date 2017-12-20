@@ -81,23 +81,40 @@ function submitResults() {
 	var groupId = gup('groupId');
 	if (groupId == "") groupId = "1";
 	var id_list = getImageId(groupId);
+
+	if(!textCheck('description1')) {
+		alert('Please type in at lease 5 words in description1!');
+		return;
+	}
+	if(!textCheck('description2')) {
+		alert('Please type in at lease 5 words in description2!');
+		return;
+	}
+	if(!textCheck('description3')) {
+		alert('Please type in at lease 5 words in description3!');
+		return;
+	}
 	document.getElementById('form_description1').value = document.getElementById('description1').value;
-	document.getElementById('form_description1').name = id_list[0] + "description";
+	//document.getElementById('form_description1').name = id_list[0] + "description";
 	//document.getElementById('form_practical1').value = document.getElementById('practical1').value;
 	//document.getElementById('form_practical1').name = id_list[0] + "practical1";
 
 	document.getElementById('form_description2').value = document.getElementById('description2').value;
-	document.getElementById('form_description2').name = id_list[1] + "description";
+	//document.getElementById('form_description2').name = id_list[1] + "description";
 	//document.getElementById('form_practical2').value = document.getElementById('practical2').value;
 	//document.getElementById('form_practical2').name = id_list[1] + "practical2";
 
 	document.getElementById('form_description3').value = document.getElementById('description3').value;
-	document.getElementById('form_description3').name = id_list[2] + "description";
+	//document.getElementById('form_description3').name = id_list[2] + "description";
 	//document.getElementById('form_practical3').value = document.getElementById('practical3').value;
 	//document.getElementById('form_practical3').name = id_list[2] + "practical3";
 
 	document.getElementById('form_comments').value = document.getElementById('comments').value;
 	document.forms["mturk_form"].submit();
+}
+
+function textCheck(id) {
+	return document.getElementById(id).value.split(' ').length > 5;
 }
 
 $(document).ready(function()
@@ -167,28 +184,11 @@ $(document).ready(function()
 
 <div class="wrapper">
 
-<div class="page" id="1">
-<div class="cell">
 
 <div align="center"><h1>3D Animation Description Test</h1></div>
 
 <div class="warning">Please only complete this HIT once. You will not be paid for retakes. If you have already completed this HIT or any other version of this HIT and submit it again, all submissions but the first will be rejected, and you will only be paid for the first submission. Having a submission rejected is detrimental to your reputation as a worker, and may prevent you from completing HITs in the future.</div>
 <br />
-
-<p>In this study, you will be shown a list of 3D animations. For each animation, please watch it fully and give it a short description in English words. Please make it a full English sentence without grammar mistakes.</p>
-
-<p><b>Technical requirements:</b></p>
-<ul>
-       <li>This experiment will only work in Firefox version 20 or higher, Chrome version 25 or higher, Safari version 5 or higher, or Internet Explorer version 10 or higher.</li>
-       <li>Please allow permission for Javascript to run on this site and disable any script blockers that are running.</li>
-</ul>
-
-<input type="button" value="Continue" onclick="next();" />
-</div>
-</div>
-
-<div class="page" id="2" style="display: none;">
-<div class="cell">
 
 <div align="center"><h1>Instructions</h1></div>
 
@@ -205,85 +205,40 @@ $(document).ready(function()
 A man is throwing a grenade while kneeling pulling pin with teeth.
 </textarea>
 </p>
-<input type="button" value="Go back" onclick="back();" />
-<input type="button" value="Continue" onclick="next();" />
-
-</div>
-</div>
-
-<div class="page" id="3" style="display: none;">
-<div class="cell">
 
 <h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag1"> </p>
 <img id="gif1" src=""></img>
 <br /><br />
-Description(5-20 words):
+Description1(5-20 words):
 <br /><br />
-<textarea name="descriptions" id="description1" rows="4" cols="70"></textarea>
+<textarea name="description1" id="description1" rows="4" cols="70"></textarea>
 <br /><br />
-<input type="button" value="Go back" onclick="back();" />
-<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description1')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
-
-</div>
-</div>
-
-<div class="page" id="4" style="display: none;">
-<div class="cell">
 
 <h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag2"> </p>
 <img id="gif2" src=""></img>
 <br /><br />
-Description(5-20 words):
+Description2(5-20 words):
 <br /><br />
-<textarea name="descriptions" id="description2" rows="4" cols="70"></textarea>
+<textarea name="description2" id="description2" rows="4" cols="70"></textarea>
 <br /><br />
-
-<input type="button" value="Go back" onclick="back();" />
-<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description2')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
-
-</div>
-</div>
-
-<div class="page" id="5" style="display: none;">
-<div class="cell">
 
 <h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag3"> </p>
 <img id="gif3" src=""></img>
 <br /><br />
-Description(5-20 words):
+Description3(5-20 words):
 <br /><br />
-<textarea name="descriptions" id="description3" rows="4" cols="70"></textarea>
+<textarea name="description3" id="description3" rows="4" cols="70"></textarea>
 <br /><br />
-
-<input type="button" value="Go back" onclick="back();" />
-<input type="button" value="Continue" onclick="function textCheck(id) { return document.getElementById(id).value.split(' ').length > 5} if(textCheck('description2')) { next(); }else{ alert('Please type in at lease 5 words!'); }" />
-
-</div>
-</div>
-
-<div class="page" id="6" style="display: none;">
-<div class="cell">
 
 <p>Thank you very much for participating in this study.</p>
 <p>Please enter any comments you have about this HIT in the box below:</p>
 <textarea name="comments" id="comments" rows="4" cols="50"></textarea>
 <br /><br />
 
-<input type="button" value="Go back" onclick="back();" />
-<input type="button" value="Continue" onclick="next();" />
-
-</div>
-</div>
-
-<div class="page" id="7" style="display: none;">
-<div class="cell">
-
 <p>Thank you for your help!</p>
-<br />
-<input type="button" value="Go back" onclick="back();" />
 <form id="mturk_form" method="POST" action="">
 	<input type="hidden" id="assignmentId" name="assignmentId" value="">
 	<input type="hidden" id="form_description1" name="" value="">
@@ -294,7 +249,3 @@ Description(5-20 words):
 </form>
 </div>
 </div>
-
-</div>
-
-<center><script>makePageNumber("Page 1 / 7");</script></center>
