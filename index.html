@@ -8,8 +8,8 @@
 <script src="https://rawgit.com/lidaiqing/animation-mturk/master/js/BrowserDetect.js"></script>
 <script src="https://rawgit.com/lidaiqing/animation-mturk/master/js/Navigation.js"></script>
 <script src="https://rawgit.com/lidaiqing/animation-mturk/master/js/Demographics.js"></script>
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
-
+<script type="text/javascript" src="https://rawgit.com/lidaiqing/animation-mturk/master/js/gif-player/gif-player.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
 <style type="text/css">
 .wrapper {
 	height: 80%;
@@ -40,6 +40,26 @@
 .warning {
 	font-weight: bold;
 }
+.gif-player span {
+		display: none;
+	}
+
+	.gif-ctrl {
+		cursor: pointer;
+		color: #05f;
+	}
+
+	/* control buttons - load, cancel, play, stop */
+	.gif-player-e .gif-ctrl-l { display: inline; }
+	.gif-player-l .gif-ctrl-c { display: inline; }
+	.gif-player-s .gif-ctrl-p { display: inline; }
+	.gif-player-p .gif-ctrl-s { display: inline; }
+
+	/* status messages - empty, loading, stopped, playing */
+	.gif-player-e .gif-info-e { display: inline; }
+	.gif-player-l .gif-info-l { display: inline; }
+	.gif-player-s .gif-info-s { display: inline; }
+	.gif-player-p .gif-info-p { display: inline; }
 
 body {
 	-webkit-touch-callout: none;
@@ -150,15 +170,15 @@ $(document).ready(function()
 			if (id3 == "") id3 = '1-3';
 			for (var i in tags) {
 				if (tags[i].id == id1) {
-					$('#tag1').text("Action tag: " + tags[i].action);
+					$('#tag1').text("Action tag(hint): " + tags[i].action);
 					console.log(tags[i]);
 				}
 				if (tags[i].id == id2) {
-					$('#tag2').text("Action tag: " + tags[i].action);
+					$('#tag2').text("Action tag(hint): " + tags[i].action);
 					console.log(tags[i]);
 				}
 				if (tags[i].id == id3) {
-					$('#tag3').text("Action tag: " + tags[i].action);
+					$('#tag3').text("Action tag(hint): " + tags[i].action);
 					console.log(tags[i]);
 				}
 			}
@@ -175,58 +195,127 @@ $(document).ready(function()
 		if (id2 == "") id2 = '1-2';
 		if (id3 == "") id3 = '1-3';
 		var baseURL = "https://s3.amazonaws.com/animation-mturk/image/";
-		$("#gif1").attr("src",baseURL + id1 + ".gif");
-		$("#gif2").attr("src",baseURL + id2 + ".gif");
-		$("#gif3").attr("src",baseURL + id3 + ".gif");
+		$("#gif1").attr("gif",baseURL + id1 + ".gif");
+		$("#gif2").attr("gif",baseURL + id2 + ".gif");
+		$("#gif3").attr("gif",baseURL + id3 + ".gif");
 	}
 });
 </script>
+<script>
+		$(document).ready( function(){
+			/* instantiate player(s) */
+			$('.gif-player').each(function(){
+				var self = $(this);
+				this.gp = new gifPlayer(self, { autoplay: false });
+			});
 
+		});
+	</script>
 <div class="wrapper">
 
-
-<div align="center"><h1>3D Animation Description Test</h1></div>
 <div class="cell">
-<div class="warning">Please only complete this HIT once. You will not be paid for retakes. If you have already completed this HIT or any other version of this HIT and submit it again, all submissions but the first will be rejected, and you will only be paid for the first submission. Having a submission rejected is detrimental to your reputation as a worker, and may prevent you from completing HITs in the future.</div>
 <br />
 </div>
 <div align="center"><h1>Instructions</h1></div>
 <div class="cell">
 <h3 style="color:red;">1. Write a natural sentence describing the action in the video. Someone reading just the sentence should have a vivid impression of what the actor is doing.</h3>
-<h3 style="color:red;">2. Please write a description for 3 videos. Videos are unrelated, so treat each one individually. </h3>
-<h3 style="color:red;">3. We will be checking the descriptions. Your HIT will be rejected if the sentences are not descriptive or not grammatically correct. </h3>
+<h3 style="color:red;">2."Action tag" gives you a short idea of what the action is. We prefer if you use your own words to describe how the 3D agent is moving.</h3>
+<h3 style="color:red;">3. Please write a description for 3 videos. Videos are unrelated, so treat each one individually. </h3>
+<h3 style="color:red;">4. We will be checking the descriptions. Your HIT will be rejected if the sentences are not descriptive or not grammatically correct. </h3>
 
 <p>Here is an example of the description.</p>
-<p>Action tag: Grenade Throw </p>
-<img src="https://s3.amazonaws.com/animation-mturk/image/1-40.gif"></img>
+<p>Action tag(hint): Grenade Throw </p>
+<div class=gif-player>
+		<img class="gif-still gif-ctrl" src="https://s3.amazonaws.com/animation-mturk/image/black.png">
+		<img class="gif-movie gif-ctrl"	gif="https://s3.amazonaws.com/animation-mturk/image/1-40.gif">
+		<div>
+			State:
+			<span class=gif-info-e>ready to load</span>
+			<span class=gif-info-l>loading ...</span>
+			<span class=gif-info-s>ready to play</span>
+			<span class=gif-info-p>playing</span>
+		</div>
+		<div class=gif-ctrl>
+			<span class=gif-ctrl-l>Load</span>
+			<span class=gif-ctrl-c>Cancel</span>
+			<span class=gif-ctrl-p>Play</span>
+			<span class=gif-ctrl-s>Stop</span>
+		</div>
+</div>
 <br /><br />
 <p>Description(5-20 words):</p>
 <textarea rows="4" cols="50" disabled>
-A man is throwing a grenade while kneeling pulling pin with teeth.
+A man is kneeling, then pulls the pin from the grenade with teeth and throws the grenade.
 </textarea>
 </p>
 
 <h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag1"> </p>
-<img id="gif1" src=""></img>
+<div class=gif-player>
+		<img class="gif-still gif-ctrl" src="https://s3.amazonaws.com/animation-mturk/image/black.png">
+		<img id="gif1" class="gif-movie gif-ctrl"	gif="">
+		<div>
+			State:
+			<span class=gif-info-e>ready to load</span>
+			<span class=gif-info-l>loading ...</span>
+			<span class=gif-info-s>ready to play</span>
+			<span class=gif-info-p>playing</span>
+		</div>
+		<div class=gif-ctrl>
+			<span class=gif-ctrl-l>Load</span>
+			<span class=gif-ctrl-c>Cancel</span>
+			<span class=gif-ctrl-p>Play</span>
+			<span class=gif-ctrl-s>Stop</span>
+		</div>
+</div>
 <br /><br />
 Description1(5-20 words):
 <br /><br />
 <textarea name="description1" id="description1" rows="4" cols="70"></textarea>
 <br /><br />
 
-<h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag2"> </p>
-<img id="gif2" src=""></img>
+<div class=gif-player>
+		<img class="gif-still gif-ctrl" src="https://s3.amazonaws.com/animation-mturk/image/black.png">
+		<img id="gif2" class="gif-movie gif-ctrl"	gif="">
+		<div>
+			State:
+			<span class=gif-info-e>ready to load</span>
+			<span class=gif-info-l>loading ...</span>
+			<span class=gif-info-s>ready to play</span>
+			<span class=gif-info-p>playing</span>
+		</div>
+		<div class=gif-ctrl>
+			<span class=gif-ctrl-l>Load</span>
+			<span class=gif-ctrl-c>Cancel</span>
+			<span class=gif-ctrl-p>Play</span>
+			<span class=gif-ctrl-s>Stop</span>
+		</div>
+</div>
 <br /><br />
 Description2(5-20 words):
 <br /><br />
 <textarea name="description2" id="description2" rows="4" cols="70"></textarea>
 <br /><br />
 
-<h1>Please make a description about this animation in full English sentence.</h1>
 <p id="tag3"> </p>
-<img id="gif3" src=""></img>
+<div class=gif-player>
+		<img class="gif-still gif-ctrl" src="https://s3.amazonaws.com/animation-mturk/image/black.png">
+		<img id="gif3" class="gif-movie gif-ctrl"	gif="">
+		<div>
+			State:
+			<span class=gif-info-e>ready to load</span>
+			<span class=gif-info-l>loading ...</span>
+			<span class=gif-info-s>ready to play</span>
+			<span class=gif-info-p>playing</span>
+		</div>
+		<div class=gif-ctrl>
+			<span class=gif-ctrl-l>Load</span>
+			<span class=gif-ctrl-c>Cancel</span>
+			<span class=gif-ctrl-p>Play</span>
+			<span class=gif-ctrl-s>Stop</span>
+		</div>
+</div>
 <br /><br />
 Description3(5-20 words):
 <br /><br />
@@ -234,16 +323,16 @@ Description3(5-20 words):
 <br /><br />
 
 <p>Thank you very much for participating in this study.</p>
-<p>Please enter any comments you have about this HIT in the box below:</p>
+<p>Please enter any comments(optional) you have about this HIT in the box below:</p>
 <textarea name="comments" id="comments" rows="4" cols="50"></textarea>
 <br /><br />
 
 <p>Thank you for your help!</p>
 <form id="mturk_form" method="POST" action="">
 	<input type="hidden" id="assignmentId" name="assignmentId" value="">
-	<input type="hidden" id="form_description1" name="" value="">
-	<input type="hidden" id="form_description2" name="" value="">
-	<input type="hidden" id="form_description3" name="" value="">
+	<input type="hidden" id="form_description1" name="description1" value="">
+	<input type="hidden" id="form_description2" name="description2" value="">
+	<input type="hidden" id="form_description3" name="description3" value="">
 	<input type="hidden" id="form_comments" name="comments" value="">
   <input style="height:50px;width:100px" id="submitButton" type="button" value="Submit" onclick="submitResults();">
 </form>
